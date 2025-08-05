@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vaaradhi Farms - Shop All</title>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+ <style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  body {
+    background-color: #fffaf5;
+    color: #3e2d1c;
+  }
+
+  /* Top orange strip - now sticky */
+  .top-strip {
+    background-color: #f47c20;
+    color: white;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1001; /* Higher than navbar */
+  }
+
+  /* Sticky header navbar */
+  .navbar {
+    position: sticky;
+    top: 32px; /* Push below top-strip height */
+    background-color: #fffdf6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .logo img {
+    height: 50px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 25px;
+  }
+
+  .nav-links a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .nav-links a i {
+    margin-left: 4px;
+  }
+
+  .icons {
+    display: flex;
+    gap: 20px;
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+  }
+
+  /* Main container */
+  .container {
+    display: flex;
+    padding: 20px;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    background-color: #fff;
+  }
+
+  .sidebar h3 {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .sidebar label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .sidebar input[type="checkbox"] {
+    margin-right: 8px;
+  }
+
+  .sidebar .filter-group {
+    margin-bottom: 30px;
+  }
+
+  .sidebar input[type="text"] {
+    width: 45%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  /* Product area */
+  .product-area {
+    flex: 1;
+    padding: 0 20px;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .product-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    position: relative;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .badge-top {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: orange;
+    color: white;
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+
+  .badge-save {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: green;
+    color: white;
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+
+  .title {
+    margin: 10px 0 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .stars {
+    text-align: center;
+    color: #ffb400;
+    margin-top: 8px;
+  }
+
+  select {
+    width: 100%;
+    padding: 6px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .price {
+    font-weight: bold;
+    margin-top: 8px;
+  }
+
+  .old-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-left: 6px;
+    font-size: 0.9rem;
+  }
+
+  .button {
+    background-color: #3b240f;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .button:hover {
+    background-color: #241609;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .nav-links {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-columns {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-column {
+      margin-bottom: 20px;
+    }
+
+    .footer-column h4 {
+      text-align: center;
+    }
+
+    .footer-column ul {
+      text-align: center;
+    }
+  }
+
+  /* Footer Styling */
+  .site-footer {
+    background-color: #f47c20;
+    color: white;
+    padding: 40px 20px 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .footer-logo {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .footer-logo img {
+    height: 60px;
+  }
+
+  .footer-columns {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+
+  .footer-column h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .footer-column ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 8px;
+  }
+
+  .footer-column ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .footer-column ul li a:hover {
+    text-decoration: underline;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.3);
+    margin-top: 30px;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .language-selector button {
+    margin-top: 10px;
+    background: #d36300;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+
+  .language-selector button:hover {
+    background: #b95100;
+  }
+
+  .collection-banner-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #483520;
+  }
+  .site-footer {
+  background-color: #f47c20;
+  color: white;
+  padding: 40px 20px 20px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.footer-logo img {
+  height: 50px;
+  margin-bottom: 30px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.footer-column {
+  min-width: 220px;
+}
+
+.footer-column h4 {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-column ul li a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.3);
+  margin-top: 30px;
+  padding-top: 20px;
+  font-size: 13px;
+}
+
+.language-selector button {
+  margin-top: 10px;
+  background: #d36300;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+.language-selector button:hover {
+  background: #b95100;
+}
+.footer-logo img {
+  display: block;
+  margin: 0 auto;
+  max-width: 180px;
+  height: auto;
+}
+
+</style>
+
+ 
+</head>
+<body>
+
+  <!-- Top strip -->
+  <div class="top-strip">
+    😊 Over 55,169+ Happy Customers & Counting! 🎉
+  </div>
+
+  <!-- Sticky header -->
+  <header class="navbar">
+    <div class="logo">
+      <img srcset="//vaaradhifarms.com/cdn/shop/files/VF_logo_final-02.png?v=1737443815&amp;width=160 1x, //vaaradhifarms.com/cdn/shop/files/VF_logo_final-02.png?v=1737443815&amp;width=320 2x" src="//vaaradhifarms.com/cdn/shop/files/VF_logo_final-02.png?v=1737443815&amp;width=160" loading="lazy" class="Yuva-logo header__heading-logo" width="160" height="69" alt="Vaaradhi Farms">
+    </div>
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">View Collections <i class="fas fa-caret-down"></i></a>
+      <a href="#">Shop All</a>
+      <a href="#">FAQ</a>
+      <a href="#">Track Your Order</a>
+      <a href="#">Contact Us</a>
+    </nav>
+    <div class="icons">
+      <i class="fas fa-search"></i>
+      <i class="fas fa-user"></i>
+      <i class="fas fa-shopping-cart"></i>
+    </div>
+  </header>
+  <div>
+    <h1 class="collection-banner-title h2" style="color:#483520">
+            Shop All
+          </h1>
+  </div>
+  <!-- Main container with sidebar and product grid -->
+  <div class="container">
+    <!-- Sidebar Filter -->
+    <div class="sidebar">
+      <h3>Availability</h3>
+      <div class="filter-group">
+        <label><input type="checkbox"> In Stock <span>(93)</span></label>
+        <label><input type="checkbox"> Out Of Stock <span>(6)</span></label>
+      </div>
+
+      <h3>Price</h3>
+      <div class="filter-group">
+        <input type="text" value="₹ 0"> TO <input type="text" value="₹ 3490.00">
+      </div>
+
+      <h3>Collection</h3>
+      <div class="filter-group">
+        <label><input type="checkbox"> Ghee <span>(1)</span></label>
+        <label><input type="checkbox"> Honey <span>(3)</span></label>
+        <label><input type="checkbox"> Pickles <span>(7)</span></label>
+        <label><input type="checkbox"> Sweets & Snacks <span>(12)</span></label>
+        <label><input type="checkbox"> Sweetener and Salts <span>(6)</span></label>
+      </div>
+
+      <h3>Quantity</h3>
+      <div class="filter-group">
+        <label><input type="checkbox"> 3G <span>(1)</span></label>
+        <label><input type="checkbox"> 25g <span>(1)</span></label>
+        <label><input type="checkbox"> 50g <span>(3)</span></label>
+        <label><input type="checkbox"> 100g <span>(14)</span></label>
+        <label><input type="checkbox"> 200g <span>(1)</span></label>
+      </div>
+    </div>
+
+    <!-- Product Grid Area -->
+    <div class="product-area">
+      <div class="product-grid">
+        <!-- Product Card 1 -->
+<div class="product-card">
+  <span class="badge-top">Top Selling</span>
+  <span class="badge-save">Save 6%</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/20250422_145310.png?v=1745565198&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/20250422_145310.png?v=1745565198&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/20250422_145310.png?v=1745565198&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/20250422_145310.png?v=1745565198&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/20250422_145310.png?v=1745565198&amp;width=400 400w" width="450" height="600" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Farm Fresh Raw Natural Honey</div>
+  <select><option>1000gms</option></select>
+  <div class="price">Rs. 940.00 <span class="old-price">Rs. 1,000.00</span></div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 2 -->
+<div class="product-card">
+  <span class="badge-top">Top Selling</span>
+  <span class="badge-save">Save 5%</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/20250405_164532.png?v=1743859831&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/20250405_164532.png?v=1743859831&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/20250405_164532.png?v=1743859831&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/20250405_164532.png?v=1743859831&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/20250405_164532.png?v=1743859831&amp;width=400 400w" width="450" height="600" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Wild Raw Forest Honey</div>
+  <select><option>1kg</option></select>
+  <div class="price">Rs. 1,140.00 <span class="old-price">Rs. 1,200.00</span></div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 3 -->
+<div class="product-card">
+  <span class="badge-top">Top Selling</span>
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/20250423_202558_1.png?v=1745565566&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/20250423_202558_1.png?v=1745565566&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/20250423_202558_1.png?v=1745565566&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/20250423_202558_1.png?v=1745565566&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/20250423_202558_1.png?v=1745565566&amp;width=400 400w" width="450" height="600" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">A2 Desi Cow Cultured Ghee</div>
+  <select><option>1000ml</option></select>
+  <div class="price">Rs. 3,490.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 4 -->
+<div class="product-card">
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/Adityark_a_bag_of_a_tan_colored_product_filled_with_turmeric_ki_30bdb482-db0c-4404-8b6c-cb59bec40502.png?v=1685016262&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/Adityark_a_bag_of_a_tan_colored_product_filled_with_turmeric_ki_30bdb482-db0c-4404-8b6c-cb59bec40502.png?v=1685016262&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/Adityark_a_bag_of_a_tan_colored_product_filled_with_turmeric_ki_30bdb482-db0c-4404-8b6c-cb59bec40502.png?v=1685016262&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/Adityark_a_bag_of_a_tan_colored_product_filled_with_turmeric_ki_30bdb482-db0c-4404-8b6c-cb59bec40502.png?v=1685016262&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/Adityark_a_bag_of_a_tan_colored_product_filled_with_turmeric_ki_30bdb482-db0c-4404-8b6c-cb59bec40502.png?v=1685016262&amp;width=400 400w" width="450" height="450" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Unprocessed Natural Turmeric</div>
+  <select><option>1/2kg</option></select>
+  <div class="price">Rs. 445.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 5 -->
+<div class="product-card">
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/image_519177bc-9938-4cfb-b9ad-8b723ca31af2.png?v=1689100808&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/image_519177bc-9938-4cfb-b9ad-8b723ca31af2.png?v=1689100808&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/image_519177bc-9938-4cfb-b9ad-8b723ca31af2.png?v=1689100808&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/image_519177bc-9938-4cfb-b9ad-8b723ca31af2.png?v=1689100808&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/image_519177bc-9938-4cfb-b9ad-8b723ca31af2.png?v=1689100808&amp;width=400 400w" width="450" height="450" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Natural Red Chilli Powder</div>
+  <select><option>1kg</option></select>
+  <div class="price">Rs. 845.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 6 -->
+<div class="product-card">
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/20250423_202638.png?v=1745565465&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/20250423_202638.png?v=1745565465&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/20250423_202638.png?v=1745565465&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/20250423_202638.png?v=1745565465&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/20250423_202638.png?v=1745565465&amp;width=400 400w" width="450" height="600" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Small Bee Forest Honey</div>
+  <select><option>500gms</option></select>
+  <div class="price">Rs. 1,325.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 7 -->
+<div class="product-card">
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/WhatsApp_Image_2024-09-24_at_11.20.47_PM.jpg?v=1727416947&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/WhatsApp_Image_2024-09-24_at_11.20.47_PM.jpg?v=1727416947&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/WhatsApp_Image_2024-09-24_at_11.20.47_PM.jpg?v=1727416947&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/WhatsApp_Image_2024-09-24_at_11.20.47_PM.jpg?v=1727416947&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/WhatsApp_Image_2024-09-24_at_11.20.47_PM.jpg?v=1727416947&amp;width=400 400w" width="450" height="450" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Lakshman Phal Juice</div>
+  <select><option>500ml</option></select>
+  <div class="price">Rs. 895.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 8 -->
+<div class="product-card">
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/ecommified_Indian_dry_Saffron_-_kesar_on_a_brown_bowl_kitchen_b_bc1c5136-f9e9-4f28-8a0f-51d3308b093d.png?v=1705982784&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/ecommified_Indian_dry_Saffron_-_kesar_on_a_brown_bowl_kitchen_b_bc1c5136-f9e9-4f28-8a0f-51d3308b093d.png?v=1705982784&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/ecommified_Indian_dry_Saffron_-_kesar_on_a_brown_bowl_kitchen_b_bc1c5136-f9e9-4f28-8a0f-51d3308b093d.png?v=1705982784&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/ecommified_Indian_dry_Saffron_-_kesar_on_a_brown_bowl_kitchen_b_bc1c5136-f9e9-4f28-8a0f-51d3308b093d.png?v=1705982784&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/ecommified_Indian_dry_Saffron_-_kesar_on_a_brown_bowl_kitchen_b_bc1c5136-f9e9-4f28-8a0f-51d3308b093d.png?v=1705982784&amp;width=400 400w" width="450" height="450" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★½</div>
+  <div class="title">Authentic Kashmiri Saffron</div>
+  <select><option>1gm</option></select>
+  <div class="price">Rs. 565.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 9 -->
+<div class="product-card">
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/deepixelstudios_wild_turmeric_powder_in_a_pouch_1080x1080_6ffdbe7d-eba2-434a-940f-9d40d1290ee2.png?v=1714064230&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/deepixelstudios_wild_turmeric_powder_in_a_pouch_1080x1080_6ffdbe7d-eba2-434a-940f-9d40d1290ee2.png?v=1714064230&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/deepixelstudios_wild_turmeric_powder_in_a_pouch_1080x1080_6ffdbe7d-eba2-434a-940f-9d40d1290ee2.png?v=1714064230&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/deepixelstudios_wild_turmeric_powder_in_a_pouch_1080x1080_6ffdbe7d-eba2-434a-940f-9d40d1290ee2.png?v=1714064230&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/deepixelstudios_wild_turmeric_powder_in_a_pouch_1080x1080_6ffdbe7d-eba2-434a-940f-9d40d1290ee2.png?v=1714064230&amp;width=400 400w" width="450" height="450" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Forest Turmeric Powder</div>
+  <select><option>250gms</option></select>
+  <div class="price">Rs. 320.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 10 -->
+<div class="product-card">
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/42bellampowder.png?v=1730945058&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/42bellampowder.png?v=1730945058&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/42bellampowder.png?v=1730945058&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/42bellampowder.png?v=1730945058&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/42bellampowder.png?v=1730945058&amp;width=400 400w" width="450" height="450" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Jaggery Powder</div>
+  <select><option>1kg</option></select>
+  <div class="price">Rs. 190.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 11 -->
+<div class="product-card">
+  <span class="badge-save">Save 18%</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/6Jaggery.png?v=1730907747&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/6Jaggery.png?v=1730907747&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/6Jaggery.png?v=1730907747&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/6Jaggery.png?v=1730907747&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/6Jaggery.png?v=1730907747&amp;width=400 400w" width="450" height="450" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★☆</div>
+  <div class="title">Bee Wax Lip Balm Original</div>
+  <select><option>Default</option></select>
+  <div class="price">Rs. 279.00 <span class="old-price">Rs. 339.00</span></div>
+  <button class="button">Add to Cart</button>
+</div>
+
+<!-- Product Card 12 -->
+<div class="product-card">
+  <span class="badge-save">Save</span>
+  <img src="//vaaradhifarms.com/cdn/shop/files/LIP_BALM_ORIGINAL_TYPE_3.png?v=1750331198&amp;width=450" alt="" srcset="//vaaradhifarms.com/cdn/shop/files/LIP_BALM_ORIGINAL_TYPE_3.png?v=1750331198&amp;width=100 100w, //vaaradhifarms.com/cdn/shop/files/LIP_BALM_ORIGINAL_TYPE_3.png?v=1750331198&amp;width=200 200w, //vaaradhifarms.com/cdn/shop/files/LIP_BALM_ORIGINAL_TYPE_3.png?v=1750331198&amp;width=300 300w, //vaaradhifarms.com/cdn/shop/files/LIP_BALM_ORIGINAL_TYPE_3.png?v=1750331198&amp;width=400 400w" width="450" height="450" sizes="auto" class="product-first-img">
+  <div class="stars">★★★★½</div>
+  <div class="title">Jaggery Bar</div>
+  <select><option>1kg</option></select>
+  <div class="price">Rs. 180.00</div>
+  <button class="button">Add to Cart</button>
+</div>
+      </div>
+    </div>
+  </div>
+
+ <footer class="site-footer">
+  <!-- Logo Centered -->
+  <div class="footer-logo">
+    <img 
+  src="https://vaaradhifarms.com/cdn/shop/files/VF_logo_final-02.png?v=1737443815&width=160" 
+  srcset="https://vaaradhifarms.com/cdn/shop/files/VF_logo_final-02.png?v=1737443815&width=160 1x, https://vaaradhifarms.com/cdn/shop/files/VF_logo_final-02.png?v=1737443815&width=320 2x" 
+  loading="lazy" 
+  class="Yuva-logo header__heading-logo" 
+  width="160" 
+  height="69" 
+  alt="Vaaradhi Farms">
+  </div>
+
+  <!-- Footer links -->
+  <div class="footer-links">
+    <!-- Quick Links Column -->
+    <div class="footer-column">
+      <h4>Quick links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">View Collections</a></li>
+        <li><a href="#">Shop All</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Track Your Order</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Customer Care Column -->
+    <div class="footer-column">
+      <h4>Customer Care</h4>
+      <ul>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Shipping Policy</a></li>
+        <li><a href="#">Refund Policy</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Contact Information</a></li>
+        <li><a href="#">Farm Fresh Natural Honey Certificate</a></li>
+        <li><a href="#">Wild Raw Forest Honey Certificate</a></li>
+        <li><a href="#">A2 Desi Cow Ghee Certificate</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom row -->
+  <div class="footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+    <!-- Bottom left text -->
+    <div style="font-size: 13px;">
+      <p>Copyright© 2025 Vaaradhi Farms<br>
+      Built by Ecommified.in</p>
+    </div>
+
+    <!-- Bottom center language button -->
+    <div class="language-selector" style="margin: 10px auto;">
+      <button>EN<span>▼</span></button>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
